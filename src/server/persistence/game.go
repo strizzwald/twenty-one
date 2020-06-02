@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"github.com/google/uuid"
 	"github.com/strizzwald/twentyone/server/models"
 )
@@ -36,8 +35,6 @@ func AddGame(ctx context.Context, game models.Game) error {
 	}
 
 	status := db.client.Set(ctx, game.Id.String(), gameJSON, 0)
-
-	fmt.Println(game.Id.String())
 
 	if status.Err() != nil {
 		return  status.Err()
