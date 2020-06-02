@@ -2,7 +2,8 @@ package main
 
 import (
 	"context"
-	deckservice "github.com/strizzwald/twentyone/client/rpc"
+	"github.com/google/uuid"
+	twentyoneservice "github.com/strizzwald/twentyone/client/rpc"
 	"google.golang.org/grpc"
 	"log"
 	"time"
@@ -18,16 +19,22 @@ func main() {
 	}
 
 	defer conn.Close()
-	c := deckservice.NewDeckServiceClient(conn)
+	c := twentyoneservice.NewGameClient(conn)
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	r, err := c.NewDeck(ctx, new(deckservice.NewDeckRequest))
-
-	if err != nil {
-		log.Fatalf("could not retrieve deck: %v", err)
+	g := &twentyoneservice.CreateGameRequest{
+		PlayerId: uuid.New().String(),
+		GameId: uuid.New().String(),
+		JoinAsDealer: true,
 	}
 
-	log.Printf("Deck: %v", r.Deck)
+	r, err := c.NewGame(ctx, g)
+
+	if err != nil {
+		log.Fatalf("could not create game: %v", err)
+	}
+
+	log.Printf("Deck: %v", r)
 }
