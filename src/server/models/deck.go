@@ -9,39 +9,29 @@ type Deck struct {
 	Cards []Card
 }
 
-func NewDeck() (Deck, error) {
+func NewDeck() Deck {
 	d := Deck{}
 	d.Cards = []Card{}
 
 	suits := []CardSuit{HEARTS, SPADES, CLUBS, DIAMONDS}
 	cardTypes := []CardType{KING, QUEEN, JACK}
-
 	var newCard Card
-	var err error
 
 	for _, s := range suits {
 		for v := 1; v <= 10; v++ {
-			newCard, err = NewCard(s, uint32(v), PIP)
-
-			if err != nil {
-				return Deck{}, err
-			}
+			newCard = NewCard(s, uint32(v), PIP)
 
 			d.Cards = append(d.Cards, newCard)
 		}
 
 		for _, t := range cardTypes {
-			newCard, err = NewCard(s, 10, t)
-
-			if err != nil {
-				return Deck{}, err
-			}
+			newCard = NewCard(s, 10, t)
 
 			d.Cards = append(d.Cards, newCard)
 		}
 	}
 
-	return d, nil
+	return d
 }
 
 func (d Deck) Shuffle() Deck {

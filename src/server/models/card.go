@@ -1,10 +1,5 @@
 package models
 
-import (
-	"errors"
-	"fmt"
-)
-
 type CardSuit string
 
 type CardType string
@@ -29,23 +24,24 @@ type Card struct {
 	CardType CardType
 }
 
-func NewCard(suit CardSuit, value uint32, cardType CardType) (Card, error) {
+func NewCard(suit CardSuit, value uint32, cardType CardType) Card {
+	var card Card
 
 	if (value == 1 || value == 11) && cardType == PIP {
-		return Card{suit, []uint32{1, 11}, cardType}, nil
+		card = Card{suit, []uint32{1, 11}, cardType}
 	}
 
 	if cardType == PIP && (value >= 2 && value <= 10) {
-		return Card{suit, []uint32{value}, cardType}, nil
+		card = Card{suit, []uint32{value}, cardType}
 	}
 
 	cardTypeMap := map[CardType]CardType{KING: KING, QUEEN: QUEEN, JACK: JACK}
 
 	if _, ok := cardTypeMap[cardType]; value == 10 && ok {
-		return Card{suit, []uint32{value}, cardType}, nil
+		card = Card{suit, []uint32{value}, cardType}
 	}
 
-	return Card{}, errors.New(fmt.Sprintf("%d of %s with type %s is an invalid card", value, suit, cardType))
+	return card
 }
 
 func (c Card) IsAce() bool {

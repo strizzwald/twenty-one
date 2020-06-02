@@ -24,7 +24,6 @@ func main() {
 
 	twentyoneservice.RegisterGameServer(s, new(services.GameService))
 
-
 	fmt.Printf("Server running on port: %s\n", port)
 
 	if err := s.Serve(lis); err != nil {

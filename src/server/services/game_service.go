@@ -15,6 +15,8 @@ type GameService struct {
 
 func (*GameService) NewGame(ctx context.Context, req *game.CreateGameRequest) (*game.CreateGameResponse, error) {
 	var playerId uuid.UUID
+	var gameId uuid.UUID
+
 	var err error
 
 	if req.PlayerId == "" {
@@ -27,19 +29,29 @@ func (*GameService) NewGame(ctx context.Context, req *game.CreateGameRequest) (*
 		}
 	}
 
-	model, err := models.CreateGame(playerId, req.JoinAsDealer)
+	if req.GameId == "" {
+		gameId = uuid.New()
+	} else {
+		gameId, err = uuid.Parse(req.GameId)
+
+		if err != nil {
+			return new(game.CreateGameResponse), err
+		}
+	}
+
+	g, err := models.CreateGame(gameId, playerId, req.JoinAsDealer)
 
 	if err != nil {
 		return new(game.CreateGameResponse), err
 	}
 
-	err = persistence.AddGame(ctx, model)
+	err = persistence.AddGame(ctx, *g)
 
 	if err != nil {
 		return new(game.CreateGameResponse), err
 	}
 
-	return &game.CreateGameResponse{GameId: playerId.String()}, nil
+	return &game.CreateGameResponse{GameId: g.Id.String()}, nil
 }
 
 func StartGame(gameId uuid.UUID) error {

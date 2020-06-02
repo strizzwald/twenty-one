@@ -27,7 +27,7 @@ func main() {
 	g := &twentyoneservice.CreateGameRequest{
 		PlayerId: uuid.New().String(),
 		GameId: uuid.New().String(),
-		JoinAsDealer: true,
+		JoinAsDealer: false,
 	}
 
 	r, err := c.NewGame(ctx, g)

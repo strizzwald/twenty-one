@@ -112,3 +112,4 @@ fabric.properties
 .idea/**/markdown-navigator/
 
 # End of https://www.gitignore.io/api/go,intellij/
+/src/server/go_build_github_com_strizzwald_twentyone_server
