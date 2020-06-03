@@ -9,9 +9,9 @@ import (
 type GameState uint32
 
 const (
-	GAME_CREATED GameState = iota
-	GAME_STARTED GameState = iota
-	GAME_ENDED GameState = iota
+	GameCreated GameState = iota
+	GameStarted GameState = iota
+	GameEnded   GameState = iota
 )
 
 type Game struct {
@@ -33,7 +33,7 @@ func CreateGame(gameId uuid.UUID, playerId uuid.UUID, joinAsDealer bool) (*Game,
 		return nil, errors.New(fmt.Sprintf("invalid playerId: %v", playerId))
 	}
 
-	g := &Game{Id: gameId, GameState: GAME_CREATED}
+	g := &Game{Id: gameId, GameState: GameCreated}
 
 	deck := NewDeck()
 

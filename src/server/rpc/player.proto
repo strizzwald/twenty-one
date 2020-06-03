@@ -1,0 +1,14 @@
+syntax = "proto3";
+package rpc;
+
+message JoinGameRequest {
+  string player_id = 1;
+  string game_id = 2;
+  bool joinAsDealer = 3;
+}
+
+message JoinGameResponse {}
+
+service Player {
+  rpc JoinGame(JoinGameRequest) returns (JoinGameResponse);
+}

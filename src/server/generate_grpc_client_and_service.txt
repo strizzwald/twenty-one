@@ -1,0 +1,1 @@
+protoc -I rpc/ rpc/<proto-file-name> --go_out=plugins=grpc:rpc

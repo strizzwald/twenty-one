@@ -6,7 +6,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/strizzwald/twentyone/server/models"
 	"github.com/strizzwald/twentyone/server/persistence"
-	"github.com/strizzwald/twentyone/server/rpc"
+	game "github.com/strizzwald/twentyone/server/rpc"
 )
 
 type GameService struct {
@@ -57,13 +57,5 @@ func (*GameService) NewGame(ctx context.Context, req *game.CreateGameRequest) (*
 func StartGame(gameId uuid.UUID) error {
 	// TODO: Check that game exists
 	// TODO: Check that game has not ended
-	return errors.New("not implemented")
-}
-
-func JoinGame(playerId uuid.UUID, gameId uuid.UUID) error {
-	// TODO: Check that game exists
-	// TODO: Check that game is still running
-	// TODO: Check that player is not in another running game
-
 	return errors.New("not implemented")
 }

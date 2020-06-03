@@ -1,5 +1,5 @@
 syntax = "proto3";
-package game;
+package rpc;
 
 message CreateGameRequest {
   string player_id = 1;
