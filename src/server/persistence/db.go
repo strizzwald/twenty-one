@@ -38,7 +38,7 @@ func (db *Db) initDatabase(ctx context.Context) error {
 	_, err := db.client.Ping(ctx).Result()
 
 	if err != nil {
-		return nil
+		return err
 	}
 
 	return nil

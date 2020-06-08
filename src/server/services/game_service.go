@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 	"errors"
+	"fmt"
 	"github.com/google/uuid"
 	"github.com/strizzwald/twentyone/server/models"
 	"github.com/strizzwald/twentyone/server/persistence"
@@ -25,6 +26,7 @@ func (*GameService) NewGame(ctx context.Context, req *game.CreateGameRequest) (*
 		playerId, err = uuid.Parse(req.PlayerId)
 
 		if err != nil {
+			fmt.Println(err)
 			return new(game.CreateGameResponse), err
 		}
 	}
@@ -39,7 +41,7 @@ func (*GameService) NewGame(ctx context.Context, req *game.CreateGameRequest) (*
 		}
 	}
 
-	g, err := models.CreateGame(gameId, playerId, req.JoinAsDealer)
+	g, err := models.CreateGame(gameId, playerId)
 
 	if err != nil {
 		return new(game.CreateGameResponse), err

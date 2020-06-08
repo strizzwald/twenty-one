@@ -22,7 +22,7 @@ type Game struct {
 	GameState GameState `json:"game_state"`
 }
 
-func CreateGame(gameId uuid.UUID, playerId uuid.UUID, joinAsDealer bool) (*Game, error) {
+func CreateGame(gameId uuid.UUID, playerId uuid.UUID) (*Game, error) {
 	emptyUuid := uuid.UUID{}
 
 	if gameId == emptyUuid {
@@ -39,13 +39,7 @@ func CreateGame(gameId uuid.UUID, playerId uuid.UUID, joinAsDealer bool) (*Game,
 
 	g.Deck = deck.Shuffle()
 
-	if joinAsDealer {
-		g.Dealer = Dealer{}
-		g.Dealer.SetId(playerId)
-
-	} else {
-		g.Players = []Player{{Id:playerId}}
-	}
+	g.Players = []Player{{Id:playerId}}
 
 	return g, nil
 }
