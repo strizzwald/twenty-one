@@ -10,6 +10,15 @@ message CreateGameResponse {
   string game_id = 1;
 }
 
+message StartGameRequest {
+  string game_id = 1;
+}
+
+message StartGameResponse {
+  bool game_started = 1;
+}
+
 service Game  {
   rpc NewGame(CreateGameRequest) returns (CreateGameResponse);
+  rpc StartGame(StartGameRequest) returns (StartGameResponse);
 }

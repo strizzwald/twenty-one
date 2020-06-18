@@ -36,6 +36,10 @@ func main() {
 		switch command {
 		case "new-game":
 			{
+				if game != nil {
+					fmt.Printf("game with id %s has already been started", game.GameId)
+					break
+				}
 				g, err := api.NewGame(ctx, conn)
 
 				if err != nil {
@@ -45,20 +49,15 @@ func main() {
 					fmt.Printf("Game created\nGameId: %v\nPlayerId: %v\n", game.GameId, game.PlayerId)
 				}
 			}
-		case "list-games":
+		case "start-game":
 			{
-				fmt.Println("Listing games.")
-				fmt.Printf("\x0c")
-			}
-		case "join-game":
-			{
-				fmt.Println("Join game.")
-				fmt.Printf("\x0c")
-			}
-		case "leave-game":
-			{
-				fmt.Println("Leaving game.")
-				fmt.Printf("\x0c")
+				_, err := game.StartGame(ctx, conn)
+
+				if err != nil {
+					fmt.Printf("Failed to start game\n%s", err)
+				} else {
+					fmt.Println("Game started")
+				}
 			}
 
 		}
@@ -71,7 +70,7 @@ Game commands
 ####################################################
 
 - new-game: Creates new game
-- join-game <game-id>: Joins an existing game
+- start-game: Starts current game
 
 Player commands
 ####################################################

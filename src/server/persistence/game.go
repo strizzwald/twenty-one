@@ -56,7 +56,7 @@ func GetGame(ctx context.Context, gameId uuid.UUID) (*models.Game, error) {
 		return nil, response.Err()
 	}
 
-	 err = json.Unmarshal([]byte(response.Val()), game)
+	 err = json.Unmarshal([]byte(response.Val()), &game)
 
 	 if err != nil {
 	 	return nil, err
@@ -77,7 +77,13 @@ func UpdateGame(ctx context.Context, gameId uuid.UUID, game models.Game) error {
 		return errors.New(fmt.Sprintf("game with id: %v does not exist", gameId))
 	}
 
-	response := db.client.Set(ctx, game.Id.String(), game, 0)
+	gameJSON, err := json.Marshal(game)
+
+	if err != nil {
+		return err
+	}
+
+	response := db.client.Set(ctx, game.Id.String(), gameJSON, 0)
 
 	if response.Err() != nil {
 		return response.Err()

@@ -1,6 +1,7 @@
 package models
 
 import (
+	"errors"
 	"math/rand"
 	"time"
 )
@@ -34,7 +35,7 @@ func NewDeck() Deck {
 	return d
 }
 
-func (d Deck) Shuffle() Deck {
+func (d *Deck) Shuffle() {
 	for i := len(d.Cards) - 1;  i > 1; i-- {
 		rand.Seed(time.Now().UTC().UnixNano())
 
@@ -42,6 +43,23 @@ func (d Deck) Shuffle() Deck {
 
 		d.Cards[i], d.Cards[j] = d.Cards[j], d.Cards[i]
 	}
+}
 
-	return d
+func (d *Deck) HasCards() bool {
+	return len(d.Cards) != 0
+}
+
+func (d *Deck) DrawCard() (Card, error) {
+	if !d.HasCards() {
+		return Card{}, errors.New("deck is empty")
+	}
+
+	if len(d.Cards) > 1 {
+		d.Shuffle()
+	}
+
+	card := d.Cards[0]
+	d.Cards = d.Cards[1:]
+
+	return card, nil
 }

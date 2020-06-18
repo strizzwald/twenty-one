@@ -15,21 +15,11 @@ type Game struct {
 }
 
 var gameClient twentyoneService.GameClient
-var game *Game
 
 func NewGame(ctx context.Context, conn *grpc.ClientConn) (Game, error) {
-
-	if gameClient == nil {
-		gameClient = twentyoneService.NewGameClient(conn)
-	}
-
-	if game != nil {
-		return Game{}, errors.New(fmt.Sprintf("Cannot create multiple games. Game with id: %s has been previously created.", game.GameId))
-	} else {
-		game = &Game{
-			GameId:   uuid.New(),
-			PlayerId: uuid.New(),
-		}
+	game := &Game{
+		GameId:   uuid.New(),
+		PlayerId: uuid.New(),
 	}
 
 	g := &twentyoneService.CreateGameRequest{
@@ -37,11 +27,32 @@ func NewGame(ctx context.Context, conn *grpc.ClientConn) (Game, error) {
 		GameId:     game.GameId.String(),
 	}
 
-	_, err := gameClient.NewGame(ctx, g)
+	client := *getGameClientConn(conn)
+	_, err := client.NewGame(ctx, g)
 
 	if err != nil {
 		return Game{}, errors.New(fmt.Sprintf("Failed to create game: %s", err))
 	}
 
 	return *game, nil
+}
+
+func (g *Game) StartGame(ctx context.Context, conn *grpc.ClientConn) (bool, error) {
+
+	client := *getGameClientConn(conn)
+	res, err := client.StartGame(ctx, &twentyoneService.StartGameRequest{GameId: g.GameId.String()})
+
+	if err != nil {
+		return false, err
+	}
+
+	return res.GameStarted, nil
+}
+
+func getGameClientConn(conn *grpc.ClientConn) *twentyoneService.GameClient {
+	if gameClient == nil {
+		gameClient = twentyoneService.NewGameClient(conn)
+	}
+
+	return &gameClient
 }

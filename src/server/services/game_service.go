@@ -56,8 +56,31 @@ func (*GameService) NewGame(ctx context.Context, req *game.CreateGameRequest) (*
 	return &game.CreateGameResponse{GameId: g.Id.String()}, nil
 }
 
-func StartGame(gameId uuid.UUID) error {
-	// TODO: Check that game exists
-	// TODO: Check that game has not ended
-	return errors.New("not implemented")
+func (*GameService) StartGame(ctx context.Context, req *game.StartGameRequest) (*game.StartGameResponse, error) {
+
+	gameId, err := uuid.Parse(req.GameId)
+
+	if err != nil {
+		return &game.StartGameResponse{GameStarted:false}, err
+	}
+
+	g, err := persistence.GetGame(ctx, gameId)
+
+	if err != nil {
+		return &game.StartGameResponse{GameStarted:false}, err
+	}
+
+	if err = g.StartGame(); err != nil {
+		return &game.StartGameResponse{GameStarted:false}, err
+	}
+
+	if len(g.Players) == 0 {
+		return &game.StartGameResponse{GameStarted:false}, errors.New("waiting for more players to join")
+	}
+
+	if err := persistence.UpdateGame(ctx, g.Id, *g); err != nil {
+		return  &game.StartGameResponse{GameStarted:false}, err
+	}
+
+	return &game.StartGameResponse{GameStarted:true}, nil
 }
