@@ -23,13 +23,13 @@ type Game struct {
 }
 
 func CreateGame(gameId uuid.UUID, playerId uuid.UUID) (*Game, error) {
-	emptyUuid := uuid.UUID{}
+	defaultUuid := uuid.UUID{}
 
-	if gameId == emptyUuid {
+	if gameId == defaultUuid {
 		return nil, errors.New(fmt.Sprintf("invalid gameId: %v", gameId))
 	}
 
-	if playerId == emptyUuid {
+	if playerId == defaultUuid {
 		return nil, errors.New(fmt.Sprintf("invalid playerId: %v", playerId))
 	}
 
@@ -42,7 +42,7 @@ func CreateGame(gameId uuid.UUID, playerId uuid.UUID) (*Game, error) {
 
 	g.Dealer = Dealer{Player{Id: uuid.New()}}
 
-	g.Players = []Player{{Id:playerId}}
+	g.Players = []Player{{Id: playerId}}
 
 	return g, nil
 }

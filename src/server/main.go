@@ -22,7 +22,8 @@ func main() {
 
 	s := grpc.NewServer()
 
-	twentyoneservice.RegisterGameServer(s, new(services.GameService))
+	twentyoneservice.RegisterGameServiceServer(s, new(services.GameService))
+	twentyoneservice.RegisterPlayerServiceServer(s, new(services.PlayerService))
 
 	fmt.Printf("Server running on port: %s\n", port)
 

@@ -9,7 +9,9 @@ import (
 )
 
 const address = "localhost:7300"
+
 var game *api.Game
+var player *api.Player
 
 func main() {
 	conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock())
@@ -40,12 +42,14 @@ func main() {
 					fmt.Printf("game with id %s has already been started", game.GameId)
 					break
 				}
-				g, err := api.NewGame(ctx, conn)
+				g, err := api.NewGame(conn, ctx)
 
 				if err != nil {
 					fmt.Println(err)
 				} else {
 					game = &g
+					player = &api.Player{Id: game.PlayerId}
+
 					fmt.Printf("Game created\nGameId: %v\nPlayerId: %v\n", game.GameId, game.PlayerId)
 				}
 			}
@@ -56,7 +60,7 @@ func main() {
 				if err != nil {
 					fmt.Printf("Failed to start game\n%s", err)
 				} else {
-					fmt.Println("Game started")
+					player.AwaitTurn(*game, ctx, conn)
 				}
 			}
 
@@ -75,6 +79,7 @@ Game commands
 Player commands
 ####################################################
 
+- 
 - hit: Blackjack hit
 - stand: Blackjack stand
 `

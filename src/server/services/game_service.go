@@ -11,7 +11,7 @@ import (
 )
 
 type GameService struct {
-	game.UnimplementedGameServer
+	game.UnimplementedGameServiceServer
 }
 
 func (*GameService) NewGame(ctx context.Context, req *game.CreateGameRequest) (*game.CreateGameResponse, error) {
@@ -79,8 +79,12 @@ func (*GameService) StartGame(ctx context.Context, req *game.StartGameRequest) (
 	}
 
 	if err := persistence.UpdateGame(ctx, g.Id, *g); err != nil {
-		return  &game.StartGameResponse{GameStarted:false}, err
+		return &game.StartGameResponse{GameStarted:false}, err
 	}
+
+	models.NewGameCoordinator(g)
+
+	fmt.Println("Game started")
 
 	return &game.StartGameResponse{GameStarted:true}, nil
 }

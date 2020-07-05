@@ -2,7 +2,6 @@ package services
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"github.com/google/uuid"
 	"github.com/strizzwald/twentyone/server/models"
@@ -11,52 +10,108 @@ import (
 )
 
 type PlayerService struct {
-	player.UnimplementedPlayerServer
+	player.UnimplementedPlayerServiceServer
 }
 
-func (*PlayerService) JoinGame(ctx context.Context, req *player.JoinGameRequest) (*player.JoinGameResponse, error) {
+func (*PlayerService) JoinGame(context.Context, *player.JoinGameRequest) (*player.JoinGameResponse, error) {
+	fmt.Println("Game joined")
+	return nil, nil
+}
 
-	gameId, err := uuid.Parse(req.GameId)
+func (*PlayerService) AwaitTurn(req *player.GetTurnRequest, stream player.PlayerService_AwaitTurnServer) error {
+	var playerId uuid.UUID
+	var gameId uuid.UUID
+	var gc *models.GameCoordinator
+	var err error
+	var gameEnded bool
 
-	if err != nil {
-		return nil, err
+	if playerId, err = uuid.Parse(req.PlayerId); err != nil {
+		return err
 	}
 
-	playerId, err := uuid.Parse(req.PlayerId)
-
-	if err != nil {
-		return nil, err
+	if gameId, err = uuid.Parse(req.GameId); err != nil {
+		return err
 	}
 
-	g, err := persistence.GetGame(ctx, gameId)
+	c := context.Background()
 
-	if err != nil {
-		return nil, err
+	if _, err = persistence.GetGame(c, gameId); err != nil {
+		return err
 	}
 
-	if g.GameState == models.GameEnded {
-		return nil, errors.New(fmt.Sprintf("game %v has ended", gameId))
+	if gc, err = models.GetGameCoordinator(); err != nil {
+		return err
 	}
 
-	if g.GameState == models.GameStarted {
-		return nil,  errors.New(fmt.Sprintf("game %v has already started", gameId))
-	}
+	fmt.Printf("Game coordinator: %v", gc)
 
-	for _, p := range g.Players {
-		if p.Id == playerId {
-			return nil, nil
+	gc.AddToQueue(playerId)
+
+	for !gameEnded {
+		select {
+		case playerId := <-gc.GetPlayerTurn():
+			{
+				game, _ := persistence.GetGame(context.Background(), gameId)
+
+				stream.Send(&player.GetTurnResponse{
+					PlayerId:             playerId.String(),
+					Game:                 fromModel(*game),
+				})
+			}
+		case gameError := <-gc.GetGameError():
+			{
+				fmt.Println(gameError)
+				// TODO: Send error on stream.
+				// stream.Send(nil)
+			}
+		case gameEnded = <-gc.IsGameEnded():
+			{
+				// TODO: Close stream
+				fmt.Println(gameEnded)
+			}
 		}
 	}
 
-	// TODO: check if player already joined other currently running games.
+	return nil
+}
 
-	g.Players = append(g.Players, models.Player{Id:playerId})
+func fromModel(game models.Game) *player.Game {
+	players := make([]*player.Player, len(game.Players))
+	var hand []*player.Card
 
-	err = persistence.UpdateGame(ctx, gameId, *g)
+	for _, p := range game.Players {
+		hand = make([]*player.Card, len(p.Hand))
 
-	if err != nil {
-		return nil, err
+		for _, c := range p.Hand  {
+			hand = append(hand, &player.Card{
+				Suit: string(c.Suit),
+				Values: c.Values,
+				CardType: string(c.CardType),
+			})
+		}
+
+		players = append(players, &player.Player{
+			Id:	  p.Id.String(),
+			Hand: hand,
+		})
 	}
 
-	return nil, nil
+	hand = make([]*player.Card, len(game.Dealer.Hand))
+
+	for _, c := range game.Dealer.Hand {
+		hand = append(hand, &player.Card{
+			Suit:                 string(c.Suit),
+			Values:               c.Values,
+			CardType:             string(c.CardType),
+		})
+	}
+
+	return &player.Game{
+		Id:      game.Id.String(),
+		Dealer:  &player.Dealer{
+			Hand: hand,
+		},
+		Players: players,
+	}
+
 }

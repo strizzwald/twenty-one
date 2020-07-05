@@ -2,12 +2,12 @@ package models
 
 import "errors"
 
-type Dealer struct{
-	Player       `json:"player"`
+type Dealer struct {
+	Player `json:"player"`
 }
 
 func (d *Dealer) Deal(deck *Deck, players []*Player) (err error) {
-	if (len(players) * 2) + 1 > len(deck.Cards)  {
+	if (len(players)*2)+1 > len(deck.Cards) {
 		return errors.New("not enough cards in deck")
 	}
 

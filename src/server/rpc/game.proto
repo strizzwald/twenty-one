@@ -18,7 +18,7 @@ message StartGameResponse {
   bool game_started = 1;
 }
 
-service Game  {
+service GameService {
   rpc NewGame(CreateGameRequest) returns (CreateGameResponse);
   rpc StartGame(StartGameRequest) returns (StartGameResponse);
 }

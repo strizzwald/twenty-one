@@ -5,17 +5,17 @@ type CardSuit string
 type CardType string
 
 const (
-	HEARTS CardSuit = "Hearts"
-	SPADES CardSuit = "Spades"
-	CLUBS CardSuit = "Clubs"
+	HEARTS   CardSuit = "Hearts"
+	SPADES   CardSuit = "Spades"
+	CLUBS    CardSuit = "Clubs"
 	DIAMONDS CardSuit = "Diamonds"
 )
 
 const (
-	PIP CardType = "Pip"
-	KING CardType = "King"
+	PIP   CardType = "Pip"
+	KING  CardType = "King"
 	QUEEN CardType = "QUEEN"
-	JACK CardType = "JACK"
+	JACK  CardType = "JACK"
 )
 
 type Card struct {

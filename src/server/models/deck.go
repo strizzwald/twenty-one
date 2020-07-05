@@ -36,7 +36,7 @@ func NewDeck() Deck {
 }
 
 func (d *Deck) Shuffle() {
-	for i := len(d.Cards) - 1;  i > 1; i-- {
+	for i := len(d.Cards) - 1; i > 1; i-- {
 		rand.Seed(time.Now().UTC().UnixNano())
 
 		j := rand.Intn(len(d.Cards) - 1)

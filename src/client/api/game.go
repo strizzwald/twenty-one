@@ -14,9 +14,9 @@ type Game struct {
 	PlayerId uuid.UUID
 }
 
-var gameClient twentyoneService.GameClient
+var gameClient twentyoneService.GameServiceClient
 
-func NewGame(ctx context.Context, conn *grpc.ClientConn) (Game, error) {
+func NewGame(conn *grpc.ClientConn, ctx context.Context) (Game, error) {
 	game := &Game{
 		GameId:   uuid.New(),
 		PlayerId: uuid.New(),
@@ -40,7 +40,9 @@ func NewGame(ctx context.Context, conn *grpc.ClientConn) (Game, error) {
 func (g *Game) StartGame(ctx context.Context, conn *grpc.ClientConn) (bool, error) {
 
 	client := *getGameClientConn(conn)
-	res, err := client.StartGame(ctx, &twentyoneService.StartGameRequest{GameId: g.GameId.String()})
+	req :=  &twentyoneService.StartGameRequest{GameId: g.GameId.String()}
+
+	res, err := client.StartGame(ctx, req)
 
 	if err != nil {
 		return false, err
@@ -49,9 +51,9 @@ func (g *Game) StartGame(ctx context.Context, conn *grpc.ClientConn) (bool, erro
 	return res.GameStarted, nil
 }
 
-func getGameClientConn(conn *grpc.ClientConn) *twentyoneService.GameClient {
+func getGameClientConn(conn *grpc.ClientConn) *twentyoneService.GameServiceClient {
 	if gameClient == nil {
-		gameClient = twentyoneService.NewGameClient(conn)
+		gameClient = twentyoneService.NewGameServiceClient(conn)
 	}
 
 	return &gameClient

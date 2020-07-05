@@ -13,7 +13,6 @@ func AddGame(ctx context.Context, game models.Game) error {
 	defaultUuid := uuid.UUID{}
 
 	if game.Id == defaultUuid  {
-		fmt.Println("Game guid error")
 		return errors.New("gameId is required")
 	}
 

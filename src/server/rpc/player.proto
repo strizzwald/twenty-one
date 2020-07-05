@@ -6,8 +6,40 @@ message JoinGameRequest {
   string game_id = 2;
 }
 
+message GetTurnRequest {
+  string player_id = 1;
+  string game_id = 2;
+}
+
+message GetTurnResponse {
+  string player_id = 1;
+  Game game = 2;
+}
+
+message Game {
+  string id = 1;
+  Dealer dealer = 2;
+  repeated Player players = 3;
+}
+
+message Dealer {
+  repeated Card hand = 1;
+}
+
+message Card {
+  string suit = 1;
+  repeated uint32 values  = 2;
+  string cardType = 3;
+}
+
+message Player {
+  string id = 1;
+  repeated Card hand = 2;
+}
+
 message JoinGameResponse {}
 
-service Player {
+service PlayerService {
   rpc JoinGame(JoinGameRequest) returns (JoinGameResponse);
+  rpc AwaitTurn(GetTurnRequest) returns (stream GetTurnResponse);
 }

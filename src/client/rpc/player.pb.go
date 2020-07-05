@@ -71,6 +71,296 @@ func (m *JoinGameRequest) GetGameId() string {
 	return ""
 }
 
+type GetTurnRequest struct {
+	PlayerId             string   `protobuf:"bytes,1,opt,name=player_id,json=playerId,proto3" json:"player_id,omitempty"`
+	GameId               string   `protobuf:"bytes,2,opt,name=game_id,json=gameId,proto3" json:"game_id,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *GetTurnRequest) Reset()         { *m = GetTurnRequest{} }
+func (m *GetTurnRequest) String() string { return proto.CompactTextString(m) }
+func (*GetTurnRequest) ProtoMessage()    {}
+func (*GetTurnRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_41d803d1b635d5c6, []int{1}
+}
+
+func (m *GetTurnRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_GetTurnRequest.Unmarshal(m, b)
+}
+func (m *GetTurnRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_GetTurnRequest.Marshal(b, m, deterministic)
+}
+func (m *GetTurnRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetTurnRequest.Merge(m, src)
+}
+func (m *GetTurnRequest) XXX_Size() int {
+	return xxx_messageInfo_GetTurnRequest.Size(m)
+}
+func (m *GetTurnRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetTurnRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GetTurnRequest proto.InternalMessageInfo
+
+func (m *GetTurnRequest) GetPlayerId() string {
+	if m != nil {
+		return m.PlayerId
+	}
+	return ""
+}
+
+func (m *GetTurnRequest) GetGameId() string {
+	if m != nil {
+		return m.GameId
+	}
+	return ""
+}
+
+type GetTurnResponse struct {
+	PlayerId             string   `protobuf:"bytes,1,opt,name=player_id,json=playerId,proto3" json:"player_id,omitempty"`
+	Game                 *Game    `protobuf:"bytes,2,opt,name=game,proto3" json:"game,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *GetTurnResponse) Reset()         { *m = GetTurnResponse{} }
+func (m *GetTurnResponse) String() string { return proto.CompactTextString(m) }
+func (*GetTurnResponse) ProtoMessage()    {}
+func (*GetTurnResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_41d803d1b635d5c6, []int{2}
+}
+
+func (m *GetTurnResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_GetTurnResponse.Unmarshal(m, b)
+}
+func (m *GetTurnResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_GetTurnResponse.Marshal(b, m, deterministic)
+}
+func (m *GetTurnResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetTurnResponse.Merge(m, src)
+}
+func (m *GetTurnResponse) XXX_Size() int {
+	return xxx_messageInfo_GetTurnResponse.Size(m)
+}
+func (m *GetTurnResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetTurnResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GetTurnResponse proto.InternalMessageInfo
+
+func (m *GetTurnResponse) GetPlayerId() string {
+	if m != nil {
+		return m.PlayerId
+	}
+	return ""
+}
+
+func (m *GetTurnResponse) GetGame() *Game {
+	if m != nil {
+		return m.Game
+	}
+	return nil
+}
+
+type Game struct {
+	Id                   string    `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Dealer               *Dealer   `protobuf:"bytes,2,opt,name=dealer,proto3" json:"dealer,omitempty"`
+	Players              []*Player `protobuf:"bytes,3,rep,name=players,proto3" json:"players,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}  `json:"-"`
+	XXX_unrecognized     []byte    `json:"-"`
+	XXX_sizecache        int32     `json:"-"`
+}
+
+func (m *Game) Reset()         { *m = Game{} }
+func (m *Game) String() string { return proto.CompactTextString(m) }
+func (*Game) ProtoMessage()    {}
+func (*Game) Descriptor() ([]byte, []int) {
+	return fileDescriptor_41d803d1b635d5c6, []int{3}
+}
+
+func (m *Game) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Game.Unmarshal(m, b)
+}
+func (m *Game) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Game.Marshal(b, m, deterministic)
+}
+func (m *Game) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Game.Merge(m, src)
+}
+func (m *Game) XXX_Size() int {
+	return xxx_messageInfo_Game.Size(m)
+}
+func (m *Game) XXX_DiscardUnknown() {
+	xxx_messageInfo_Game.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Game proto.InternalMessageInfo
+
+func (m *Game) GetId() string {
+	if m != nil {
+		return m.Id
+	}
+	return ""
+}
+
+func (m *Game) GetDealer() *Dealer {
+	if m != nil {
+		return m.Dealer
+	}
+	return nil
+}
+
+func (m *Game) GetPlayers() []*Player {
+	if m != nil {
+		return m.Players
+	}
+	return nil
+}
+
+type Dealer struct {
+	Hand                 []*Card  `protobuf:"bytes,1,rep,name=hand,proto3" json:"hand,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *Dealer) Reset()         { *m = Dealer{} }
+func (m *Dealer) String() string { return proto.CompactTextString(m) }
+func (*Dealer) ProtoMessage()    {}
+func (*Dealer) Descriptor() ([]byte, []int) {
+	return fileDescriptor_41d803d1b635d5c6, []int{4}
+}
+
+func (m *Dealer) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Dealer.Unmarshal(m, b)
+}
+func (m *Dealer) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Dealer.Marshal(b, m, deterministic)
+}
+func (m *Dealer) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Dealer.Merge(m, src)
+}
+func (m *Dealer) XXX_Size() int {
+	return xxx_messageInfo_Dealer.Size(m)
+}
+func (m *Dealer) XXX_DiscardUnknown() {
+	xxx_messageInfo_Dealer.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Dealer proto.InternalMessageInfo
+
+func (m *Dealer) GetHand() []*Card {
+	if m != nil {
+		return m.Hand
+	}
+	return nil
+}
+
+type Card struct {
+	Suit                 string   `protobuf:"bytes,1,opt,name=suit,proto3" json:"suit,omitempty"`
+	Values               []uint32 `protobuf:"varint,2,rep,packed,name=values,proto3" json:"values,omitempty"`
+	CardType             string   `protobuf:"bytes,3,opt,name=cardType,proto3" json:"cardType,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *Card) Reset()         { *m = Card{} }
+func (m *Card) String() string { return proto.CompactTextString(m) }
+func (*Card) ProtoMessage()    {}
+func (*Card) Descriptor() ([]byte, []int) {
+	return fileDescriptor_41d803d1b635d5c6, []int{5}
+}
+
+func (m *Card) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Card.Unmarshal(m, b)
+}
+func (m *Card) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Card.Marshal(b, m, deterministic)
+}
+func (m *Card) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Card.Merge(m, src)
+}
+func (m *Card) XXX_Size() int {
+	return xxx_messageInfo_Card.Size(m)
+}
+func (m *Card) XXX_DiscardUnknown() {
+	xxx_messageInfo_Card.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Card proto.InternalMessageInfo
+
+func (m *Card) GetSuit() string {
+	if m != nil {
+		return m.Suit
+	}
+	return ""
+}
+
+func (m *Card) GetValues() []uint32 {
+	if m != nil {
+		return m.Values
+	}
+	return nil
+}
+
+func (m *Card) GetCardType() string {
+	if m != nil {
+		return m.CardType
+	}
+	return ""
+}
+
+type Player struct {
+	Id                   string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Hand                 []*Card  `protobuf:"bytes,2,rep,name=hand,proto3" json:"hand,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *Player) Reset()         { *m = Player{} }
+func (m *Player) String() string { return proto.CompactTextString(m) }
+func (*Player) ProtoMessage()    {}
+func (*Player) Descriptor() ([]byte, []int) {
+	return fileDescriptor_41d803d1b635d5c6, []int{6}
+}
+
+func (m *Player) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Player.Unmarshal(m, b)
+}
+func (m *Player) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Player.Marshal(b, m, deterministic)
+}
+func (m *Player) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Player.Merge(m, src)
+}
+func (m *Player) XXX_Size() int {
+	return xxx_messageInfo_Player.Size(m)
+}
+func (m *Player) XXX_DiscardUnknown() {
+	xxx_messageInfo_Player.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Player proto.InternalMessageInfo
+
+func (m *Player) GetId() string {
+	if m != nil {
+		return m.Id
+	}
+	return ""
+}
+
+func (m *Player) GetHand() []*Card {
+	if m != nil {
+		return m.Hand
+	}
+	return nil
+}
+
 type JoinGameResponse struct {
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
@@ -81,7 +371,7 @@ func (m *JoinGameResponse) Reset()         { *m = JoinGameResponse{} }
 func (m *JoinGameResponse) String() string { return proto.CompactTextString(m) }
 func (*JoinGameResponse) ProtoMessage()    {}
 func (*JoinGameResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_41d803d1b635d5c6, []int{1}
+	return fileDescriptor_41d803d1b635d5c6, []int{7}
 }
 
 func (m *JoinGameResponse) XXX_Unmarshal(b []byte) error {
@@ -104,6 +394,12 @@ var xxx_messageInfo_JoinGameResponse proto.InternalMessageInfo
 
 func init() {
 	proto.RegisterType((*JoinGameRequest)(nil), "rpc.JoinGameRequest")
+	proto.RegisterType((*GetTurnRequest)(nil), "rpc.GetTurnRequest")
+	proto.RegisterType((*GetTurnResponse)(nil), "rpc.GetTurnResponse")
+	proto.RegisterType((*Game)(nil), "rpc.Game")
+	proto.RegisterType((*Dealer)(nil), "rpc.Dealer")
+	proto.RegisterType((*Card)(nil), "rpc.Card")
+	proto.RegisterType((*Player)(nil), "rpc.Player")
 	proto.RegisterType((*JoinGameResponse)(nil), "rpc.JoinGameResponse")
 }
 
@@ -112,17 +408,29 @@ func init() {
 }
 
 var fileDescriptor_41d803d1b635d5c6 = []byte{
-	// 146 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0x29, 0xc8, 0x49, 0xac,
-	0x4c, 0x2d, 0xd2, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x62, 0x2e, 0x2a, 0x48, 0x56, 0x72, 0xe7,
-	0xe2, 0xf7, 0xca, 0xcf, 0xcc, 0x73, 0x4f, 0xcc, 0x4d, 0x0d, 0x4a, 0x2d, 0x2c, 0x4d, 0x2d, 0x2e,
-	0x11, 0x92, 0xe6, 0xe2, 0x84, 0xa8, 0x8b, 0xcf, 0x4c, 0x91, 0x60, 0x54, 0x60, 0xd4, 0xe0, 0x0c,
-	0xe2, 0x80, 0x08, 0x78, 0xa6, 0x08, 0x89, 0x73, 0xb1, 0xa7, 0x27, 0xe6, 0xa6, 0x82, 0xa4, 0x98,
-	0xc0, 0x52, 0x6c, 0x20, 0xae, 0x67, 0x8a, 0x92, 0x10, 0x97, 0x00, 0xc2, 0xa0, 0xe2, 0x82, 0xfc,
-	0xbc, 0xe2, 0x54, 0x23, 0x47, 0x2e, 0xb6, 0x00, 0xb0, 0x46, 0x21, 0x73, 0x2e, 0x0e, 0x98, 0xac,
-	0x90, 0x88, 0x5e, 0x51, 0x41, 0xb2, 0x1e, 0x9a, 0xad, 0x52, 0xa2, 0x68, 0xa2, 0x10, 0x23, 0x92,
-	0xd8, 0xc0, 0x6e, 0x35, 0x06, 0x04, 0x00, 0x00, 0xff, 0xff, 0xe8, 0xc1, 0x87, 0x3e, 0xbb, 0x00,
-	0x00, 0x00,
+	// 346 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xa4, 0x52, 0xcf, 0x4b, 0xf3, 0x40,
+	0x10, 0x25, 0x3f, 0x48, 0x9b, 0xe9, 0xd7, 0xf6, 0x63, 0xac, 0x1a, 0x2a, 0x42, 0x89, 0x88, 0x3d,
+	0x15, 0xa9, 0x87, 0x7a, 0x15, 0xc5, 0x52, 0x41, 0x91, 0xd8, 0xbb, 0x6c, 0xb3, 0x83, 0x06, 0xda,
+	0x24, 0x6e, 0x92, 0x4a, 0xaf, 0xfe, 0xe5, 0xb2, 0xbb, 0x49, 0xa4, 0x55, 0xbc, 0x78, 0xcb, 0x7b,
+	0x33, 0xef, 0xed, 0x9b, 0xcc, 0xc0, 0xbf, 0x74, 0xc9, 0x36, 0x24, 0x46, 0xa9, 0x48, 0xf2, 0x04,
+	0x2d, 0x91, 0x86, 0xfe, 0x14, 0xba, 0x77, 0x49, 0x14, 0x4f, 0xd9, 0x8a, 0x02, 0x7a, 0x2b, 0x28,
+	0xcb, 0xf1, 0x08, 0x5c, 0xdd, 0xf7, 0x1c, 0x71, 0xcf, 0x18, 0x18, 0x43, 0x37, 0x68, 0x6a, 0x62,
+	0xc6, 0xf1, 0x10, 0x1a, 0x2f, 0x6c, 0x45, 0xb2, 0x64, 0xaa, 0x92, 0x23, 0xe1, 0x8c, 0xfb, 0xb7,
+	0xd0, 0x99, 0x52, 0x3e, 0x2f, 0x44, 0xfc, 0x37, 0x9f, 0x7b, 0xe8, 0xd6, 0x3e, 0x59, 0x9a, 0xc4,
+	0x19, 0xfd, 0x6e, 0x74, 0x0c, 0xb6, 0x54, 0x2a, 0x97, 0xd6, 0xd8, 0x1d, 0x89, 0x34, 0x1c, 0xa9,
+	0x69, 0x14, 0xed, 0x2f, 0xc0, 0x96, 0x08, 0x3b, 0x60, 0xd6, 0x62, 0x33, 0xe2, 0x78, 0x02, 0x0e,
+	0x27, 0xb6, 0x24, 0x51, 0x0a, 0x5b, 0x4a, 0x78, 0xa3, 0xa8, 0xa0, 0x2c, 0xe1, 0x29, 0x34, 0xf4,
+	0x3b, 0x99, 0x67, 0x0d, 0xac, 0xba, 0xeb, 0x51, 0x71, 0x41, 0x55, 0xf3, 0xcf, 0xc0, 0xd1, 0x42,
+	0x19, 0xe6, 0x95, 0xc5, 0xf2, 0x1d, 0xab, 0x0e, 0x73, 0xcd, 0x04, 0x0f, 0x14, 0xed, 0x3f, 0x80,
+	0x2d, 0x11, 0x22, 0xd8, 0x59, 0x11, 0xe5, 0x65, 0x1c, 0xf5, 0x8d, 0x07, 0xe0, 0xac, 0xd9, 0xb2,
+	0xa0, 0xcc, 0x33, 0x07, 0xd6, 0xb0, 0x1d, 0x94, 0x08, 0xfb, 0xd0, 0x0c, 0x99, 0xe0, 0xf3, 0x4d,
+	0x4a, 0x9e, 0xa5, 0x67, 0xaf, 0xb0, 0x3f, 0x01, 0x47, 0x67, 0xf9, 0x36, 0x5e, 0x15, 0xc4, 0xfc,
+	0x39, 0x08, 0xc2, 0xff, 0xaf, 0xad, 0xeb, 0xbf, 0x3c, 0xfe, 0x30, 0xa0, 0xad, 0xdd, 0x9e, 0x48,
+	0xac, 0xa3, 0x90, 0x70, 0x02, 0xcd, 0xaa, 0x0b, 0x7b, 0xca, 0x62, 0xe7, 0x54, 0xfa, 0xfb, 0x3b,
+	0x6c, 0xb9, 0xb0, 0x4b, 0x70, 0xaf, 0xde, 0x59, 0xa4, 0xb6, 0x88, 0x7b, 0x7a, 0x25, 0x5b, 0xb7,
+	0xd1, 0xef, 0x6d, 0x93, 0x5a, 0x77, 0x6e, 0x2c, 0x1c, 0x75, 0x9a, 0x17, 0x9f, 0x01, 0x00, 0x00,
+	0xff, 0xff, 0xa6, 0xfe, 0xb5, 0x6c, 0xaa, 0x02, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -133,74 +441,138 @@ var _ grpc.ClientConnInterface
 // is compatible with the grpc package it is being compiled against.
 const _ = grpc.SupportPackageIsVersion6
 
-// PlayerClient is the client API for Player service.
+// PlayerServiceClient is the client API for PlayerService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
-type PlayerClient interface {
+type PlayerServiceClient interface {
 	JoinGame(ctx context.Context, in *JoinGameRequest, opts ...grpc.CallOption) (*JoinGameResponse, error)
+	AwaitTurn(ctx context.Context, in *GetTurnRequest, opts ...grpc.CallOption) (PlayerService_AwaitTurnClient, error)
 }
 
-type playerClient struct {
+type playerServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewPlayerClient(cc grpc.ClientConnInterface) PlayerClient {
-	return &playerClient{cc}
+func NewPlayerServiceClient(cc grpc.ClientConnInterface) PlayerServiceClient {
+	return &playerServiceClient{cc}
 }
 
-func (c *playerClient) JoinGame(ctx context.Context, in *JoinGameRequest, opts ...grpc.CallOption) (*JoinGameResponse, error) {
+func (c *playerServiceClient) JoinGame(ctx context.Context, in *JoinGameRequest, opts ...grpc.CallOption) (*JoinGameResponse, error) {
 	out := new(JoinGameResponse)
-	err := c.cc.Invoke(ctx, "/rpc.Player/JoinGame", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/rpc.PlayerService/JoinGame", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// PlayerServer is the server API for Player service.
-type PlayerServer interface {
+func (c *playerServiceClient) AwaitTurn(ctx context.Context, in *GetTurnRequest, opts ...grpc.CallOption) (PlayerService_AwaitTurnClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_PlayerService_serviceDesc.Streams[0], "/rpc.PlayerService/AwaitTurn", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &playerServiceAwaitTurnClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type PlayerService_AwaitTurnClient interface {
+	Recv() (*GetTurnResponse, error)
+	grpc.ClientStream
+}
+
+type playerServiceAwaitTurnClient struct {
+	grpc.ClientStream
+}
+
+func (x *playerServiceAwaitTurnClient) Recv() (*GetTurnResponse, error) {
+	m := new(GetTurnResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+// PlayerServiceServer is the server API for PlayerService service.
+type PlayerServiceServer interface {
 	JoinGame(context.Context, *JoinGameRequest) (*JoinGameResponse, error)
+	AwaitTurn(*GetTurnRequest, PlayerService_AwaitTurnServer) error
 }
 
-// UnimplementedPlayerServer can be embedded to have forward compatible implementations.
-type UnimplementedPlayerServer struct {
+// UnimplementedPlayerServiceServer can be embedded to have forward compatible implementations.
+type UnimplementedPlayerServiceServer struct {
 }
 
-func (*UnimplementedPlayerServer) JoinGame(ctx context.Context, req *JoinGameRequest) (*JoinGameResponse, error) {
+func (*UnimplementedPlayerServiceServer) JoinGame(ctx context.Context, req *JoinGameRequest) (*JoinGameResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method JoinGame not implemented")
 }
-
-func RegisterPlayerServer(s *grpc.Server, srv PlayerServer) {
-	s.RegisterService(&_Player_serviceDesc, srv)
+func (*UnimplementedPlayerServiceServer) AwaitTurn(req *GetTurnRequest, srv PlayerService_AwaitTurnServer) error {
+	return status.Errorf(codes.Unimplemented, "method AwaitTurn not implemented")
 }
 
-func _Player_JoinGame_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func RegisterPlayerServiceServer(s *grpc.Server, srv PlayerServiceServer) {
+	s.RegisterService(&_PlayerService_serviceDesc, srv)
+}
+
+func _PlayerService_JoinGame_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(JoinGameRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PlayerServer).JoinGame(ctx, in)
+		return srv.(PlayerServiceServer).JoinGame(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/rpc.Player/JoinGame",
+		FullMethod: "/rpc.PlayerService/JoinGame",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PlayerServer).JoinGame(ctx, req.(*JoinGameRequest))
+		return srv.(PlayerServiceServer).JoinGame(ctx, req.(*JoinGameRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-var _Player_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "rpc.Player",
-	HandlerType: (*PlayerServer)(nil),
+func _PlayerService_AwaitTurn_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(GetTurnRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(PlayerServiceServer).AwaitTurn(m, &playerServiceAwaitTurnServer{stream})
+}
+
+type PlayerService_AwaitTurnServer interface {
+	Send(*GetTurnResponse) error
+	grpc.ServerStream
+}
+
+type playerServiceAwaitTurnServer struct {
+	grpc.ServerStream
+}
+
+func (x *playerServiceAwaitTurnServer) Send(m *GetTurnResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+var _PlayerService_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "rpc.PlayerService",
+	HandlerType: (*PlayerServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "JoinGame",
-			Handler:    _Player_JoinGame_Handler,
+			Handler:    _PlayerService_JoinGame_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "AwaitTurn",
+			Handler:       _PlayerService_AwaitTurn_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "player.proto",
 }
